@@ -166,8 +166,8 @@ class Graph {
 		if (w1 < 1 || w1 > getvertexNum())
 			return null;
 		Vector<Integer> ret = new Vector<Integer>();
-		for (int i = 0; i < head[w1]; i++) {//for (int i = head[w1]; i != -1; i = Edgearray[i].getnext())此行为边链表的遍历，原遍历方式有问题，更改为正确的
-			if (Edgearray[i].number == w2 && Edgearray[i].cost == 1)//多余的判断条件
+		for (int i = head[w1]; i != -1; i = Edgearray[i].getnext()) {//for (int i = 0; i < head[w1]; i++)此行为边链表的遍历，原遍历方式有问题，更改为正确的
+			if (Edgearray[i].number == w2)// && Edgearray[i].cost == 1 //多余的判断条件
 				return ret;
 		}
 		getBridgeDFS(w1, -1, 0, w2, ret);
