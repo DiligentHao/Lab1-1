@@ -19,45 +19,49 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 class Trie {
-	static int maxn = 1500, sig = 26;
-	int[][] ch = new int[maxn][sig];
-	int[] index = new int[maxn];
-	int[] head = new int[maxn];
-	String[] ss = new String[100];
-	private int tot, root, cnt;
+  static int maxn = 1500;
+  static int sig = 26;
+  int[][] ch = new int[maxn][sig];
+  int[] index = new int[maxn];
+  int[] head = new int[maxn];
+  String[] ss = new String[100];
+  private int tot, root, cnt;
 
-	public int getcnt() {
-		return cnt;
-	}
+  public int getcnt() {
+    return cnt;
+  }
 
-	private int newnode() {
-		for (int i = 0; i < sig; i++)
-			ch[tot][i] = -1;
-		index[tot] = -1;
-		return tot++;
-	}
+  private int newnode() {
+    for (int i = 0; i < sig; i++) {
+      ch[tot][i] = -1;
+    }
+    index[tot] = -1;
+    return tot++;
+  }
 
-	public void init() {
-		tot = 0;
-		cnt = 0;
-		root = newnode();
-	}
+  public void init() {
+    tot = 0;
+    cnt = 0;
+    root = newnode();
+  }
 
-	public void insert(String s) {
-		int len = s.length(), p = root;
-		for (int i = 0; i < len; i++) {
-			if (ch[p][s.charAt(i) - 'a'] == -1)
-				ch[p][s.charAt(i) - 'a'] = newnode();
-			p = ch[p][s.charAt(i) - 'a'];
-		}
-		if (index[p] == -1) {
-			index[p] = ++cnt;
-			ss[cnt] = s;
-		}
-	}
+  public void insert(String s) {
+    int len = s.length();
+    int p = root;
+    for (int i = 0; i < len; i++) {
+      if (ch[p][s.charAt(i) - 'a'] == -1) {
+        ch[p][s.charAt(i) - 'a'] = newnode();
+      }
+      p = ch[p][s.charAt(i) - 'a'];
+    }
+    if (index[p] == -1) {
+      index[p] = ++cnt;
+      ss[cnt] = s;
+    }
+  }
 
-	public int search(String s) {
-		int len = s.length(), p = root;
+  public int search(String s) {
+    int len = s.length(), p = root;
 		for (int i = 0; i < len; i++) {
 			if (s.charAt(i) < 'a' || s.charAt(i) > 'z')
 				return -1;
@@ -162,8 +166,8 @@ class Graph {
 		if (w1 < 1 || w1 > getvertexNum())
 			return null;
 		Vector<Integer> ret = new Vector<Integer>();
-		for (int i = 0; i < head[w1]; i++) {
-			if (Edgearray[i].number == w2 && Edgearray[i].cost == 1)
+		for (int i = 0; i < head[w1]; i++) {//for (int i = head[w1]; i != -1; i = Edgearray[i].getnext())此行为边链表的遍历，原遍历方式有问题，更改为正确的
+			if (Edgearray[i].number == w2 && Edgearray[i].cost == 1)//多余的判断条件
 				return ret;
 		}
 		getBridgeDFS(w1, -1, 0, w2, ret);
